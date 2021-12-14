@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+
+    <!-- My Css -->
+    <link rel="stylesheet" href="style.css">
+    <title>Produce</title>
+</head>
+<body>
+    <div class="wrap">
+        <div class="container">
+            <h1 class="logo">
+                <img src="img/logo_pc.png" alt="Produce 農產品比價網" class="logo_pc">
+                <img src="img/logo_mb.png" alt="農產品比價網" class="logo_mb">
+            </h1>
+            <div class="card">
+                <ul class="tabs">
+                    <li class="tab active">蔬菜</li>
+                    <li class="tab">水果</li>
+                    <li class="tab">花卉</li>
+                </ul>
+                <form action="#" class="search">
+                    <div class="search_bar">
+                        <label for="search_input">作物名稱</label>
+                        <input type="text" id="search_input" placeholder="請輸入作物名稱" required>
+                    </div>
+                    <button type="submit" class="search_submit">搜尋</button>
+                </form>
+                <div class="info">
+                    <p class="info_text">查看「椰子」的比價結果</p>
+                    <div class="info_filter-pc">
+                        <p class="info_filter_title-pc">
+                            排序篩選
+                            <i class="fas fa-caret-down"></i>
+                        </p>
+                        <ul class="info_filter_sub-pc">
+                            <li class="info_filter_subItem-pc">依上價排序</li>
+                            <li class="info_filter_subItem-pc">依中價排序</li>
+                            <li class="info_filter_subItem-pc">依下價排序</li>
+                            <li class="info_filter_subItem-pc">依平均價排序</li>
+                            <li class="info_filter_subItem-pc">依交易量排序</li>
+                        </ul>
+                    </div>
+                    <div class="info_filter-mb">
+                        <ul class="info_filter_sub-mb">
+                            <li class="info_filter_subItem-mb">上價</li>
+                            <li class="info_filter_subItem-mb">中價</li>
+                            <li class="info_filter_subItem-mb">下價</li>
+                            <li class="info_filter_subItem-mb">平均價</li>
+                            <li class="info_filter_subItem-mb">交易量</li>
+                        </ul>
+                        <p class="info_filter_title-mb">
+                            排序&nbsp;
+                            <i class="fas fa-sort"></i>
+                        </p>
+                    </div>
+                </div>
+                <table>
+                    
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
