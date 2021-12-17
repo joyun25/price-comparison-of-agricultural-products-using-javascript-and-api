@@ -13,7 +13,8 @@ const infoText = document.querySelector('.info_text');
 const tbody = document.querySelector('.tbody');
 
 // Functions
-function categoryList (categoryList) {
+function results (categoryList) {
+    tbody.innerHTML = '';
     categoryList.forEach(item => {
         tbody.innerHTML += `
             <tr>
@@ -37,6 +38,82 @@ function unFind (){
     `;
 }
 
+function filterPc(categoryList){
+    filterTitlePc.addEventListener('click', () => {
+        filterSubPc.classList.toggle('d-none');
+        filterSubItemPcs.forEach(subItem => {
+            subItem.addEventListener('click', e => {
+                if (e.target.innerText.includes('上價')) {
+                    const sortList = categoryList.sort(function(a, b){
+                        return a.上價 - b.上價;
+                    });
+                    results (sortList);
+                } else if (e.target.innerText.includes('中價')) {
+                    const sortList = categoryList.sort(function(a, b){
+                        return a.中價 - b.中價;
+                    });
+                    results (sortList);
+                } else if (e.target.innerText.includes('下價')) {
+                    const sortList = categoryList.sort(function(a, b){
+                        return a.下價 - b.下價;
+                    });
+                    results (sortList);
+                } else if (e.target.innerText.includes('平均價')) {
+                    const sortList = categoryList.sort(function(a, b){
+                        return a.平均價 - b.平均價;
+                    });
+                    results (sortList);
+                } else {
+                    const sortList = categoryList.sort(function(a, b){
+                        return a.交易量 - b.交易量;
+                    });
+                    results (sortList);
+                }
+                filterTitlePc.innerHTML = `${subItem.innerText} <i class="fas fa-caret-down"></i>`;
+                filterSubPc.classList.add('d-none');
+            })
+        });
+    })
+}
+
+function filterMb(categoryList){
+    filterTitleMb.addEventListener('click', () => {
+        filterSubMb.classList.toggle('info_filter_sub-mb-open');
+        filterSubItemMbs.forEach(subItem => {
+            subItem.addEventListener('click', e => {
+                if (e.target.innerText.includes('上價')) {
+                    const sortList = categoryList.sort(function(a, b){
+                        return a.上價 - b.上價;
+                    });
+                    results (sortList);
+                } else if (e.target.innerText.includes('中價')) {
+                    const sortList = categoryList.sort(function(a, b){
+                        return a.中價 - b.中價;
+                    });
+                    results (sortList);
+                } else if (e.target.innerText.includes('下價')) {
+                    const sortList = categoryList.sort(function(a, b){
+                        return a.下價 - b.下價;
+                    });
+                    results (sortList);
+                } else if (e.target.innerText.includes('平均價')) {
+                    const sortList = categoryList.sort(function(a, b){
+                        return a.平均價 - b.平均價;
+                    });
+                    results (sortList);
+                } else {
+                    const sortList = categoryList.sort(function(a, b){
+                        return a.交易量 - b.交易量;
+                    });
+                    results (sortList);
+                }
+                filterTitleMb.innerHTML = `${subItem.innerText}&nbsp;<i class="fas fa-sort"></i>`;
+                filterSubMb.classList.remove('info_filter_sub-mb-open');
+            })
+        });
+    })
+}
+
 // Event Listener
 // --tabs switch
 tabParent.addEventListener('click', e => {
@@ -54,6 +131,28 @@ tabParent.addEventListener('click', e => {
     } else {
         return
     }
+})
+
+// --filter Pc
+filterTitlePc.addEventListener('click', () => {
+    filterSubPc.classList.toggle('d-none');
+    filterSubItemPcs.forEach(subItem => {
+        subItem.addEventListener('click', () => {
+            filterTitlePc.innerHTML = `${subItem.innerText} <i class="fas fa-caret-down"></i>`;
+            filterSubPc.classList.add('d-none');
+        })
+    });
+})
+
+// --filter Mb
+filterTitleMb.addEventListener('click', () => {
+    filterSubMb.classList.toggle('info_filter_sub-mb-open');
+    filterSubItemMbs.forEach(subItem => {
+        subItem.addEventListener('click', () => {
+            filterTitleMb.innerHTML = `${subItem.innerText}&nbsp;<i class="fas fa-sort"></i>`;
+            filterSubMb.classList.remove('info_filter_sub-mb-open');
+        })
+    });
 })
 
 // --search
@@ -85,11 +184,12 @@ searchSubmit.addEventListener('click', () => {
                 return item.作物名稱.includes(searchInput.value);
             });
             infoText.innerText = `查看「${searchInput.value}」的比價結果`;
-            tbody.innerHTML = '';
             if (vegetableList == '') {
                 unFind ();
             } else {
-                categoryList (vegetableList);
+                results (vegetableList);
+                filterPc (vegetableList);
+                filterMb (vegetableList);
             }
             
         } else if (tabs[1].classList.contains('active')){
@@ -97,11 +197,12 @@ searchSubmit.addEventListener('click', () => {
                 return item.作物名稱.includes(searchInput.value);
             });
             infoText.innerText = `查看「${searchInput.value}」的比價結果`;
-            tbody.innerHTML = '';
             if (fruitList == '') {
                 unFind ();
             } else {
-                categoryList (fruitList);
+                results (fruitList);
+                filterPc (fruitList);
+                filterMb (fruitList); 
             }
 
         } else {
@@ -109,37 +210,14 @@ searchSubmit.addEventListener('click', () => {
                 return item.作物名稱.includes(searchInput.value);
             });
             infoText.innerText = `查看「${searchInput.value}」的比價結果`;
-            tbody.innerHTML = '';
             if (flowerList == '') {
                 unFind ();
             } else {
-                categoryList (flowerList);
+                results (flowerList);
+                filterPc (flowerList);
+                filterMb (flowerList);
             }
         }
         searchInput.value = '';
     })
 })
-
-// --filter PC
-filterTitlePc.addEventListener('click', () => {
-    filterSubPc.classList.toggle('d-none');
-    filterSubItemPcs.forEach(subItem => {
-        subItem.addEventListener('click', () => {
-            filterTitlePc.innerHTML = `${subItem.innerText} <i class="fas fa-caret-down"></i>`;
-            filterSubPc.classList.add('d-none');
-        })
-    });
-})
-
-// --filter Mb
-filterTitleMb.addEventListener('click', () => {
-    filterSubMb.classList.toggle('info_filter_sub-mb-open');
-    filterSubItemMbs.forEach(subItem => {
-        subItem.addEventListener('click', () => {
-            filterTitleMb.innerHTML = `${subItem.innerText}&nbsp;<i class="fas fa-sort"></i>`;
-            filterSubMb.classList.remove('info_filter_sub-mb-open');
-        })
-    });
-})
-
-console.log('1');
