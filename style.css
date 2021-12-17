@@ -405,6 +405,11 @@ body {
 
 .table {
 	width: 100%;
+	text-align: left;
+}
+
+.text_align_center {
+	text-align: center;
 }
 
 .table th {
@@ -448,7 +453,6 @@ body {
 	padding-top: 15px;
 	padding-bottom: 15px;
 	border-bottom: 2px solid #d9d9d9;
-	text-align: center;
 }
 
 
@@ -458,5 +462,15 @@ body {
 		padding-top: 13px;
 		padding-bottom: 13px;
 		border-bottom: 1px solid #d9d9d9;
+	}
+}
+
+.table_first {
+	padding-left: 17px;
+}
+
+@media screen and (max-width: 767px) {
+	.table_first {
+		padding-left: 8px;
 	}
 }
