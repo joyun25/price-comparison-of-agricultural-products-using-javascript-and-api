@@ -11,11 +11,13 @@ const filterSubMb = document.querySelector('.info_filter_sub-mb');
 const filterSubItemMbs = document.querySelectorAll('.info_filter_subItem-mb');
 const infoText = document.querySelector('.info_text');
 const tbody = document.querySelector('.tbody');
+var currentList;
 
 // Functions
-function results (categoryList) {
+function writeResults (categoryList) {
     tbody.innerHTML = '';
-    categoryList.forEach(item => {
+    currentList = categoryList;
+    currentList.forEach(item => {
         tbody.innerHTML += `
             <tr>
                 <td class="table_content table_first">${item.作物名稱}</td>
@@ -30,7 +32,7 @@ function results (categoryList) {
     });
 }
 
-function unFind (){
+function writeUnFind (){
     tbody.innerHTML = `
         <tr>
             <td colspan="7" class="table_info text_align_center">查詢不到當日的交易資訊</td>
@@ -38,80 +40,51 @@ function unFind (){
     `;
 }
 
-function filterPc(categoryList){
-    filterTitlePc.addEventListener('click', () => {
-        filterSubPc.classList.toggle('d-none');
-        filterSubItemPcs.forEach(subItem => {
-            subItem.addEventListener('click', e => {
-                if (e.target.innerText.includes('上價')) {
-                    const sortList = categoryList.sort(function(a, b){
-                        return a.上價 - b.上價;
-                    });
-                    results (sortList);
-                } else if (e.target.innerText.includes('中價')) {
-                    const sortList = categoryList.sort(function(a, b){
-                        return a.中價 - b.中價;
-                    });
-                    results (sortList);
-                } else if (e.target.innerText.includes('下價')) {
-                    const sortList = categoryList.sort(function(a, b){
-                        return a.下價 - b.下價;
-                    });
-                    results (sortList);
-                } else if (e.target.innerText.includes('平均價')) {
-                    const sortList = categoryList.sort(function(a, b){
-                        return a.平均價 - b.平均價;
-                    });
-                    results (sortList);
-                } else {
-                    const sortList = categoryList.sort(function(a, b){
-                        return a.交易量 - b.交易量;
-                    });
-                    results (sortList);
-                }
-                filterTitlePc.innerHTML = `${subItem.innerText} <i class="fas fa-caret-down"></i>`;
-                filterSubPc.classList.add('d-none');
-            })
+function sort (item) {
+    if (item.innerText.includes('上價')) {
+        const sortList = currentList.sort(function(a, b){
+            return a.上價 - b.上價;
         });
-    })
+        writeResults (sortList);
+    } else if (item.innerText.includes('中價')) {
+        const sortList = currentList.sort(function(a, b){
+            return a.中價 - b.中價;
+        });
+        writeResults (sortList);
+    } else if (item.innerText.includes('下價')) {
+        const sortList = currentList.sort(function(a, b){
+            return a.下價 - b.下價;
+        });
+        writeResults (sortList);
+    } else if (item.innerText.includes('平均價')) {
+        const sortList = currentList.sort(function(a, b){
+            return a.平均價 - b.平均價;
+        });
+        writeResults (sortList);
+    } else {
+        const sortList = currentList.sort(function(a, b){
+            return a.交易量 - b.交易量;
+        });
+        writeResults (sortList);
+    }
 }
 
-function filterMb(categoryList){
-    filterTitleMb.addEventListener('click', () => {
-        filterSubMb.classList.toggle('info_filter_sub-mb-open');
-        filterSubItemMbs.forEach(subItem => {
-            subItem.addEventListener('click', e => {
-                if (e.target.innerText.includes('上價')) {
-                    const sortList = categoryList.sort(function(a, b){
-                        return a.上價 - b.上價;
-                    });
-                    results (sortList);
-                } else if (e.target.innerText.includes('中價')) {
-                    const sortList = categoryList.sort(function(a, b){
-                        return a.中價 - b.中價;
-                    });
-                    results (sortList);
-                } else if (e.target.innerText.includes('下價')) {
-                    const sortList = categoryList.sort(function(a, b){
-                        return a.下價 - b.下價;
-                    });
-                    results (sortList);
-                } else if (e.target.innerText.includes('平均價')) {
-                    const sortList = categoryList.sort(function(a, b){
-                        return a.平均價 - b.平均價;
-                    });
-                    results (sortList);
-                } else {
-                    const sortList = categoryList.sort(function(a, b){
-                        return a.交易量 - b.交易量;
-                    });
-                    results (sortList);
-                }
-                filterTitleMb.innerHTML = `${subItem.innerText}&nbsp;<i class="fas fa-sort"></i>`;
-                filterSubMb.classList.remove('info_filter_sub-mb-open');
-            })
-        });
-    })
+function judgeAndWrite (categoryList){
+    if (document.documentElement.scrollWidth > 767) {
+        if (filterTitlePc == ''){
+            writeResults (categoryList);
+        } else {
+            currentList = categoryList;
+            sort(filterTitlePc);
+        }
+    } else {
+        if (filterTitleMb == ''){
+            writeResults (categoryList);
+        } else {
+            currentList = categoryList;
+            sort(filterTitleMb);
+        }
+    }
 }
 
 // Event Listener
@@ -122,6 +95,7 @@ tabParent.addEventListener('click', e => {
             tab.classList.remove('active');
         });
         e.target.classList.add('active');
+        currentList = '';
         infoText.innerText = '';
         tbody.innerHTML = `
             <tr>
@@ -135,27 +109,49 @@ tabParent.addEventListener('click', e => {
 
 // --filter Pc
 filterTitlePc.addEventListener('click', () => {
-    filterSubPc.classList.toggle('d-none');
-    filterSubItemPcs.forEach(subItem => {
-        subItem.addEventListener('click', () => {
-            filterTitlePc.innerHTML = `${subItem.innerText} <i class="fas fa-caret-down"></i>`;
-            filterSubPc.classList.add('d-none');
-        })
-    });
+    if (currentList == ''){
+        filterSubPc.classList.toggle('d-none');
+        filterSubItemPcs.forEach(subItem => {
+            subItem.addEventListener('click', () => {
+                filterTitlePc.innerHTML = `${subItem.innerText} <i class="fas fa-caret-down"></i>`;
+                filterSubPc.classList.add('d-none');
+            })
+        });
+    } else {
+        filterSubPc.classList.toggle('d-none');
+        filterSubItemPcs.forEach(subItem => {
+            subItem.addEventListener('click', e => {
+                sort (e.target);
+                filterTitlePc.innerHTML = `${subItem.innerText} <i class="fas fa-caret-down"></i>`;
+                filterSubPc.classList.add('d-none');
+            })
+        });
+    }
 })
 
 // --filter Mb
 filterTitleMb.addEventListener('click', () => {
-    filterSubMb.classList.toggle('info_filter_sub-mb-open');
-    filterSubItemMbs.forEach(subItem => {
-        subItem.addEventListener('click', () => {
-            filterTitleMb.innerHTML = `${subItem.innerText}&nbsp;<i class="fas fa-sort"></i>`;
-            filterSubMb.classList.remove('info_filter_sub-mb-open');
-        })
-    });
+    if (currentList == '') {
+        filterSubMb.classList.toggle('info_filter_sub-mb-open');
+        filterSubItemMbs.forEach(subItem => {
+            subItem.addEventListener('click', () => {
+                filterTitleMb.innerHTML = `${subItem.innerText}&nbsp;<i class="fas fa-sort"></i>`;
+                filterSubMb.classList.remove('info_filter_sub-mb-open');
+            })
+        });
+    } else {
+        filterSubMb.classList.toggle('info_filter_sub-mb-open');
+        filterSubItemMbs.forEach(subItem => {
+            subItem.addEventListener('click', e => {
+                sort (e.target);
+                filterTitleMb.innerHTML = `${subItem.innerText}&nbsp;<i class="fas fa-sort"></i>`;
+                filterSubMb.classList.remove('info_filter_sub-mb-open');
+            })
+        });
+    }
 })
 
-// --search
+// --submit
 searchSubmit.addEventListener('click', () => {
     tbody.innerHTML = `
         <tr>
@@ -185,11 +181,9 @@ searchSubmit.addEventListener('click', () => {
             });
             infoText.innerText = `查看「${searchInput.value}」的比價結果`;
             if (vegetableList == '') {
-                unFind ();
+                writeUnFind ();
             } else {
-                results (vegetableList);
-                filterPc (vegetableList);
-                filterMb (vegetableList);
+                judgeAndWrite (vegetableList);
             }
             
         } else if (tabs[1].classList.contains('active')){
@@ -198,11 +192,9 @@ searchSubmit.addEventListener('click', () => {
             });
             infoText.innerText = `查看「${searchInput.value}」的比價結果`;
             if (fruitList == '') {
-                unFind ();
+                writeUnFind ();
             } else {
-                results (fruitList);
-                filterPc (fruitList);
-                filterMb (fruitList); 
+                judgeAndWrite (fruitList);
             }
 
         } else {
@@ -211,11 +203,9 @@ searchSubmit.addEventListener('click', () => {
             });
             infoText.innerText = `查看「${searchInput.value}」的比價結果`;
             if (flowerList == '') {
-                unFind ();
+                writeUnFind ();
             } else {
-                results (flowerList);
-                filterPc (flowerList);
-                filterMb (flowerList);
+                judgeAndWrite (flowerList);
             }
         }
         searchInput.value = '';
