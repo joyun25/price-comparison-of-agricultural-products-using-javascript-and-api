@@ -109,7 +109,7 @@ tabParent.addEventListener('click', e => {
 
 // --filter Pc
 filterTitlePc.addEventListener('click', () => {
-    if (currentList == ''){
+    if (currentList == '' || currentList == undefined || currentList == null){
         filterSubPc.classList.toggle('d-none');
         filterSubItemPcs.forEach(subItem => {
             subItem.addEventListener('click', () => {
@@ -131,7 +131,7 @@ filterTitlePc.addEventListener('click', () => {
 
 // --filter Mb
 filterTitleMb.addEventListener('click', () => {
-    if (currentList == '') {
+    if (currentList == '' || currentList == undefined || currentList == null) {
         filterSubMb.classList.toggle('info_filter_sub-mb-open');
         filterSubItemMbs.forEach(subItem => {
             subItem.addEventListener('click', () => {
