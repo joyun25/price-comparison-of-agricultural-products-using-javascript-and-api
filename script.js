@@ -43,22 +43,22 @@ function writeUnFind (){
 }
 
 function sort (item) {
-    if (item.innerText.includes('上價')) {
+    if (item.textContent.includes('上價')) {
         let sortList = currentList.sort(function(a, b){
             return a.上價 - b.上價;
         });
         writeResults (sortList);
-    } else if (item.innerText.includes('中價')) {
+    } else if (item.textContent.includes('中價')) {
         let sortList = currentList.sort(function(a, b){
             return a.中價 - b.中價;
         });
         writeResults (sortList);
-    } else if (item.innerText.includes('下價')) {
+    } else if (item.textContent.includes('下價')) {
         let sortList = currentList.sort(function(a, b){
             return a.下價 - b.下價;
         });
         writeResults (sortList);
-    } else if (item.innerText.includes('平均價')) {
+    } else if (item.textContent.includes('平均價')) {
         let sortList = currentList.sort(function(a, b){
             return a.平均價 - b.平均價;
         });
@@ -98,7 +98,7 @@ tabParent.addEventListener('click', e => {
         });
         e.target.classList.add('active');
         currentList = '';
-        infoText.innerText = '';
+        infoText.textContent = '';
         tbody.innerHTML = `
             <tr>
                 <td colspan="7" class="table_info text_align_center">請輸入並搜尋想比價的作物名稱</td>
@@ -115,7 +115,7 @@ filterTitlePc.addEventListener('click', () => {
         filterSubPc.classList.toggle('d-none');
         filterSubItemPcs.forEach(subItem => {
             subItem.addEventListener('click', () => {
-                filterTitlePc.innerHTML = `${subItem.innerText} <i class="fas fa-caret-down"></i>`;
+                filterTitlePc.innerHTML = `${subItem.textContent} <i class="fas fa-caret-down"></i>`;
                 filterSubPc.classList.add('d-none');
             })
         });
@@ -124,7 +124,7 @@ filterTitlePc.addEventListener('click', () => {
         filterSubItemPcs.forEach(subItem => {
             subItem.addEventListener('click', e => {
                 sort (e.target);
-                filterTitlePc.innerHTML = `${subItem.innerText} <i class="fas fa-caret-down"></i>`;
+                filterTitlePc.innerHTML = `${subItem.textContent} <i class="fas fa-caret-down"></i>`;
                 filterSubPc.classList.add('d-none');
             })
         });
@@ -137,7 +137,7 @@ filterTitleMb.addEventListener('click', () => {
         filterSubMb.classList.toggle('info_filter_sub-mb-open');
         filterSubItemMbs.forEach(subItem => {
             subItem.addEventListener('click', () => {
-                filterTitleMb.innerHTML = `${subItem.innerText}&nbsp;<i class="fas fa-sort"></i>`;
+                filterTitleMb.innerHTML = `${subItem.textContent}&nbsp;<i class="fas fa-sort"></i>`;
                 filterSubMb.classList.remove('info_filter_sub-mb-open');
             })
         });
@@ -146,7 +146,7 @@ filterTitleMb.addEventListener('click', () => {
         filterSubItemMbs.forEach(subItem => {
             subItem.addEventListener('click', e => {
                 sort (e.target);
-                filterTitleMb.innerHTML = `${subItem.innerText}&nbsp;<i class="fas fa-sort"></i>`;
+                filterTitleMb.innerHTML = `${subItem.textContent}&nbsp;<i class="fas fa-sort"></i>`;
                 filterSubMb.classList.remove('info_filter_sub-mb-open');
             })
         });
@@ -181,7 +181,7 @@ axios.get('https://data.coa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx')
             let vegetableList = vegetable.filter(function(item){
                 return item.作物名稱.includes(searchInput.value.trim());
             });
-            infoText.innerText = `查看「${searchInput.value.trim()}」的比價結果`;
+            infoText.textContent = `查看「${searchInput.value.trim()}」的比價結果`;
             if (vegetableList == '') {
                 writeUnFind ();
             } else {
@@ -192,7 +192,7 @@ axios.get('https://data.coa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx')
             let fruitList = fruit.filter(function(item){
                 return item.作物名稱.includes(searchInput.value.trim());
             });
-            infoText.innerText = `查看「${searchInput.value.trim()}」的比價結果`;
+            infoText.textContent = `查看「${searchInput.value.trim()}」的比價結果`;
             if (fruitList == '') {
                 writeUnFind ();
             } else {
@@ -203,7 +203,7 @@ axios.get('https://data.coa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx')
             let flowerList = flower.filter(function(item){
                 return item.作物名稱.includes(searchInput.value.trim());
             });
-            infoText.innerText = `查看「${searchInput.value.trim()}」的比價結果`;
+            infoText.textContent = `查看「${searchInput.value.trim()}」的比價結果`;
             if (flowerList == '') {
                 writeUnFind ();
             } else {
