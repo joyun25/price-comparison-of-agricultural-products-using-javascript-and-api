@@ -11,14 +11,15 @@ const filterSubMb = document.querySelector('.info_filter_sub-mb');
 const filterSubItemMbs = document.querySelectorAll('.info_filter_subItem-mb');
 const infoText = document.querySelector('.info_text');
 const tbody = document.querySelector('.tbody');
-var currentList;
+let currentList;
 
 // Functions
 function writeResults (categoryList) {
     tbody.innerHTML = '';
+    let str = '';
     currentList = categoryList;
     currentList.forEach(item => {
-        tbody.innerHTML += `
+        str += `
             <tr>
                 <td class="table_content table_first">${item.作物名稱}</td>
                 <td class="table_content">${item.市場名稱}</td>
@@ -30,6 +31,7 @@ function writeResults (categoryList) {
             </tr>
         `;
     });
+    tbody.innerHTML = str;
 }
 
 function writeUnFind (){
@@ -42,27 +44,27 @@ function writeUnFind (){
 
 function sort (item) {
     if (item.innerText.includes('上價')) {
-        const sortList = currentList.sort(function(a, b){
+        let sortList = currentList.sort(function(a, b){
             return a.上價 - b.上價;
         });
         writeResults (sortList);
     } else if (item.innerText.includes('中價')) {
-        const sortList = currentList.sort(function(a, b){
+        let sortList = currentList.sort(function(a, b){
             return a.中價 - b.中價;
         });
         writeResults (sortList);
     } else if (item.innerText.includes('下價')) {
-        const sortList = currentList.sort(function(a, b){
+        let sortList = currentList.sort(function(a, b){
             return a.下價 - b.下價;
         });
         writeResults (sortList);
     } else if (item.innerText.includes('平均價')) {
-        const sortList = currentList.sort(function(a, b){
+        let sortList = currentList.sort(function(a, b){
             return a.平均價 - b.平均價;
         });
         writeResults (sortList);
     } else {
-        const sortList = currentList.sort(function(a, b){
+        let sortList = currentList.sort(function(a, b){
             return a.交易量 - b.交易量;
         });
         writeResults (sortList);
@@ -151,35 +153,35 @@ filterTitleMb.addEventListener('click', () => {
     }
 })
 
-// --submit
-searchSubmit.addEventListener('click', () => {
-    tbody.innerHTML = `
-        <tr>
-            <td colspan="7" class="table_info text_align_center">資料載入中...</td>
-        </tr>
-    `;
-    // axios
-    axios.get('	https://data.coa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx')
-    .then(function(response) {
-    // selector
-        const data = response.data;
-        const vegetable = data.filter(function(item){
-            return item.種類代碼 == 'N04';
-        });
-        const fruit = data.filter(function(item){
-            return item.種類代碼 == 'N05';
-        });
-        const flower = data.filter(function(item){
-            return item.種類代碼 == 'N06';
-        });
-    
-        if (searchInput.value == '') {
+// axios
+axios.get('https://data.coa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx')
+.then(function(response) {
+// selector
+    const data = response.data;
+    const vegetable = data.filter(function(item){
+        return item.種類代碼 == 'N04';
+    });
+    const fruit = data.filter(function(item){
+        return item.種類代碼 == 'N05';
+    });
+    const flower = data.filter(function(item){
+        return item.種類代碼 == 'N06';
+    });
+    // --submit
+    searchSubmit.addEventListener('click', () => {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" class="table_info text_align_center">資料載入中...</td>
+            </tr>
+        `;
+        
+        if (searchInput.value.trim() == '') {
             alert('請輸入作物名稱');
         } else if (tabs[0].classList.contains('active')){
             let vegetableList = vegetable.filter(function(item){
-                return item.作物名稱.includes(searchInput.value);
+                return item.作物名稱.includes(searchInput.value.trim());
             });
-            infoText.innerText = `查看「${searchInput.value}」的比價結果`;
+            infoText.innerText = `查看「${searchInput.value.trim()}」的比價結果`;
             if (vegetableList == '') {
                 writeUnFind ();
             } else {
@@ -188,9 +190,9 @@ searchSubmit.addEventListener('click', () => {
             
         } else if (tabs[1].classList.contains('active')){
             let fruitList = fruit.filter(function(item){
-                return item.作物名稱.includes(searchInput.value);
+                return item.作物名稱.includes(searchInput.value.trim());
             });
-            infoText.innerText = `查看「${searchInput.value}」的比價結果`;
+            infoText.innerText = `查看「${searchInput.value.trim()}」的比價結果`;
             if (fruitList == '') {
                 writeUnFind ();
             } else {
@@ -199,9 +201,9 @@ searchSubmit.addEventListener('click', () => {
 
         } else {
             let flowerList = flower.filter(function(item){
-                return item.作物名稱.includes(searchInput.value);
+                return item.作物名稱.includes(searchInput.value.trim());
             });
-            infoText.innerText = `查看「${searchInput.value}」的比價結果`;
+            infoText.innerText = `查看「${searchInput.value.trim()}」的比價結果`;
             if (flowerList == '') {
                 writeUnFind ();
             } else {
