@@ -12,6 +12,10 @@ const filterSubItemMbs = document.querySelectorAll('.info_filter_subItem-mb');
 const infoText = document.querySelector('.info_text');
 const tbody = document.querySelector('.tbody');
 let currentList;
+let data;
+let vegetable;
+let fruit;
+let flower;
 
 // Functions
 function writeResults (categoryList) {
@@ -154,62 +158,67 @@ filterTitleMb.addEventListener('click', () => {
 })
 
 // axios
-axios.get('https://data.coa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx')
-.then(function(response) {
-// selector
-    const data = response.data;
-    const vegetable = data.filter(function(item){
-        return item.種類代碼 == 'N04';
-    });
-    const fruit = data.filter(function(item){
-        return item.種類代碼 == 'N05';
-    });
-    const flower = data.filter(function(item){
-        return item.種類代碼 == 'N06';
-    });
-    // --submit
-    searchSubmit.addEventListener('click', () => {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="7" class="table_info text_align_center">資料載入中...</td>
-            </tr>
-        `;
-        
-        if (searchInput.value.trim() == '') {
-            alert('請輸入作物名稱');
-        } else if (tabs[0].classList.contains('active')){
-            let vegetableList = vegetable.filter(function(item){
-                return item.作物名稱.includes(searchInput.value.trim());
-            });
-            infoText.textContent = `查看「${searchInput.value.trim()}」的比價結果`;
-            if (vegetableList == '') {
-                writeUnFind ();
-            } else {
-                judgeAndWrite (vegetableList);
-            }
-            
-        } else if (tabs[1].classList.contains('active')){
-            let fruitList = fruit.filter(function(item){
-                return item.作物名稱.includes(searchInput.value.trim());
-            });
-            infoText.textContent = `查看「${searchInput.value.trim()}」的比價結果`;
-            if (fruitList == '') {
-                writeUnFind ();
-            } else {
-                judgeAndWrite (fruitList);
-            }
-
-        } else {
-            let flowerList = flower.filter(function(item){
-                return item.作物名稱.includes(searchInput.value.trim());
-            });
-            infoText.textContent = `查看「${searchInput.value.trim()}」的比價結果`;
-            if (flowerList == '') {
-                writeUnFind ();
-            } else {
-                judgeAndWrite (flowerList);
-            }
-        }
-        searchInput.value = '';
+function getData() {
+    axios.get('https://hexschool.github.io/js-filter-data/data.json')
+    .then(function(response) {
+        // selector
+        data = response.data;
+        vegetable = data.filter(function(item){
+            return item.種類代碼 == 'N04';
+        });
+        fruit = data.filter(function(item){
+            return item.種類代碼 == 'N05';
+        });
+        flower = data.filter(function(item){
+            return item.種類代碼 == 'N06';
+        });
     })
+}
+
+getData();
+
+// --submit
+searchSubmit.addEventListener('click', () => {
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="7" class="table_info text_align_center">資料載入中...</td>
+        </tr>
+    `;
+    
+    if (searchInput.value.trim() == '') {
+        alert('請輸入作物名稱');
+    } else if (tabs[0].classList.contains('active')){
+        let vegetableList = vegetable.filter(function(item){
+            return item.作物名稱.includes(searchInput.value.trim());
+        });
+        infoText.textContent = `查看「${searchInput.value.trim()}」的比價結果`;
+        if (vegetableList == '') {
+            writeUnFind ();
+        } else {
+            judgeAndWrite (vegetableList);
+        }
+        
+    } else if (tabs[1].classList.contains('active')){
+        let fruitList = fruit.filter(function(item){
+            return item.作物名稱.includes(searchInput.value.trim());
+        });
+        infoText.textContent = `查看「${searchInput.value.trim()}」的比價結果`;
+        if (fruitList == '') {
+            writeUnFind ();
+        } else {
+            judgeAndWrite (fruitList);
+        }
+
+    } else {
+        let flowerList = flower.filter(function(item){
+            return item.作物名稱.includes(searchInput.value.trim());
+        });
+        infoText.textContent = `查看「${searchInput.value.trim()}」的比價結果`;
+        if (flowerList == '') {
+            writeUnFind ();
+        } else {
+            judgeAndWrite (flowerList);
+        }
+    }
+    searchInput.value = '';
 })
