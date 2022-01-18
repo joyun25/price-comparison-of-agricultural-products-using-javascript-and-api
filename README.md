@@ -1,7 +1,7 @@
 # produce
 版型出自 [六角學院](https://www.hexschool.com/)線上課程作業，僅作練習。
 
-### [Github Pages](https://joyun25.github.io/produce/)
+### [Github Pages](https://joyun25.github.io/price-comparison-of-agricultural-products-using-javascript-and-api/)
 ![](https://i.imgur.com/xuOxuxK.png)
 ![](https://i.imgur.com/M6Zm0IS.png)
 
